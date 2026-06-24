@@ -1,0 +1,46 @@
+{% extends "fraud_detection/base.html" %}
+
+{% block title %}Policy{% endblock %}
+
+{% block content %}
+<section class="hero compact">
+  <h1>Policy Implications for India</h1>
+  <p class="subtitle">
+  Regulatory frameworks, opportunities, and challenges for deploying AI in Indian digital payment fraud prevention.
+  </p>
+</section>
+
+<section class="panel">
+  <h2>Regulatory Frameworks</h2>
+  <div class="policy-grid">
+    {% for fw in frameworks %}
+    <article class="policy-card">
+      <header>
+        <span class="authority">{{ fw.authority }}</span>
+        <span class="year">{{ fw.year }}</span>
+      </header>
+      <h3>{{ fw.name }}</h3>
+      <p>{{ fw.summary }}</p>
+      <p class="ai-relevance"><strong>AI relevance:</strong> {{ fw.relevance_to_ai }}</p>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="panel">
+  <h2>Challenges & Mitigations</h2>
+  <div class="challenge-list">
+    {% for ch in challenges %}
+    <article class="challenge-card severity-{{ ch.severity|lower }}">
+      <span class="category">{{ ch.category }}</span>
+      <h3>{{ ch.title }}</h3>
+      <p>{{ ch.description }}</p>
+      <p><strong>India context:</strong> {{ ch.india_context }}</p>
+      {% if ch.mitigation %}
+      <p><strong>Mitigation:</strong> {{ ch.mitigation }}</p>
+      {% endif %}
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends "fraud_detection/base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <h1>AI-Powered Fraud Detection for Indian Digital Payments</h1>
+  <p class="subtitle">
+  Hybrid machine learning system scoring UPI, IMPS, NEFT, and card transactions
+  with explainable risk factors aligned to RBI & NPCI frameworks.
+  </p>
+  <div class="hero-actions">
+    <a href="/analyze/" class="btn btn-primary">Score a Transaction</a>
+    <a href="/policy/" class="btn btn-secondary">View Policy Implications</a>
+  </div>
+</section>
+
+<section class="stats-grid">
+  <div class="stat-card">
+    <span class="stat-label">Transactions Scored</span>
+    <span class="stat-value">{{ stats.totals.total|default:"0" }}</span>
+  </div>
+  <div class="stat-card alert">
+    <span class="stat-label">Flagged as Fraud</span>
+    <span class="stat-value">{{ stats.totals.flagged|default:"0" }}</span>
+  </div>
+  <div class="stat-card">
+    <span class="stat-label">Volume Monitored</span>
+    <span class="stat-value">₹{{ stats.totals.volume|floatformat:0|default:"0" }}</span>
+  </div>
+  <div class="stat-card">
+    <span class="stat-label">Avg Risk Score</span>
+    <span class="stat-value">{{ stats.totals.avg_risk|floatformat:2|default:"—" }}</span>
+  </div>
+</section>
+
+{% if stats.latest_model_metrics %}
+<section class="panel">
+  <h2>Model Performance</h2>
+  <div class="metrics-row">
+    <div><strong>Precision</strong> {{ stats.latest_model_metrics.precision|floatformat:3 }}</div>
+    <div><strong>Recall</strong> {{ stats.latest_model_metrics.recall|floatformat:3 }}</div>
+    <div><strong>F1</strong> {{ stats.latest_model_metrics.f1_score|floatformat:3 }}</div>
+    <div><strong>ROC-AUC</strong> {{ stats.latest_model_metrics.roc_auc|floatformat:3 }}</div>
+  </div>
+</section>
+{% endif %}
+
+<section class="two-col">
+  <div class="panel">
+    <h2>By Payment Channel</h2>
+    <table>
+      <thead><tr><th>Channel</th><th>Total</th><th>Flagged</th></tr></thead>
+      <tbody>
+        {% for row in stats.by_channel %}
+        <tr>
+          <td>{{ row.payment_channel }}</td>
+          <td>{{ row.count }}</td>
+          <td class="flagged">{{ row.flagged }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="3">Run <code>python manage.py seed_data</code> to populate demo data.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="panel">
+    <h2>Recent Alerts</h2>
+    <ul class="alert-list">
+      {% for alert in stats.recent_alerts %}
+      <li>
+        <strong>{{ alert.title }}</strong>
+        <span class="badge">{{ alert.recommended_action }}</span>
+        <p>{{ alert.description }}</p>
+      </li>
+      {% empty %}
+      <li>No alerts yet.</li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endblock %}

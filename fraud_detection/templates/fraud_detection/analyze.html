@@ -1,0 +1,100 @@
+{% extends "fraud_detection/base.html" %}
+
+{% block title %}Analyze{% endblock %}
+
+{% block content %}
+<section class="hero compact">
+  <h1>Transaction Fraud Analyzer</h1>
+  <p class="subtitle">Submit a payment scenario to get an AI risk score with explainable factors.</p>
+</section>
+
+<div class="two-col analyze-layout">
+  <form method="post" class="panel form-panel">
+    {% csrf_token %}
+    <h2>Transaction Details</h2>
+
+    <label>Amount (INR)
+      <input type="number" name="amount_inr" step="0.01" value="25000" required>
+    </label>
+
+    <label>Payment Channel
+      <select name="payment_channel">
+        {% for ch in channels %}
+        <option value="{{ ch }}">{{ ch }}</option>
+        {% endfor %}
+      </select>
+    </label>
+
+    <label>Device Type
+      <select name="device_type">
+        <option value="ANDROID">Android</option>
+        <option value="IOS">iOS</option>
+        <option value="WEB">Web</option>
+        <option value="USSD">USSD</option>
+      </select>
+    </label>
+
+    <div class="row-2">
+      <label>Payer State <input type="text" name="payer_state" value="Maharashtra" required></label>
+      <label>Beneficiary State <input type="text" name="beneficiary_state" value="Uttar Pradesh" required></label>
+    </div>
+
+    <label>Merchant Category
+      <input type="text" name="merchant_category" value="P2P">
+    </label>
+
+    <div class="row-2">
+      <label>Account Age (days) <input type="number" name="account_age_days" value="45"></label>
+      <label>Beneficiary Age (days) <input type="number" name="beneficiary_age_days" value="1"></label>
+    </div>
+
+    <div class="row-2">
+      <label>Txn Velocity (1h) <input type="number" name="txn_velocity_1h" value="8"></label>
+      <label>Distance (km) <input type="number" name="distance_km" step="0.1" value="850"></label>
+    </div>
+
+    <label>Merchant Risk Score (0–1)
+      <input type="number" name="merchant_risk_score" step="0.01" min="0" max="1" value="0.75">
+    </label>
+
+    <fieldset class="flags">
+      <legend>Risk Flags</legend>
+      <label><input type="checkbox" name="new_beneficiary" checked> New beneficiary</label>
+      <label><input type="checkbox" name="high_velocity" checked> High velocity</label>
+      <label><input type="checkbox" name="odd_hour"> Odd hour</label>
+      <label><input type="checkbox" name="geo_mismatch" checked> Geo mismatch</label>
+      <label><input type="checkbox" name="vpn_detected"> VPN detected</label>
+      <label><input type="checkbox" name="first_large_txn" checked> First large txn</label>
+    </fieldset>
+
+    <button type="submit" class="btn btn-primary">Analyze with AI</button>
+  </form>
+
+  <div class="panel result-panel">
+    <h2>Analysis Result</h2>
+    {% if error %}
+      <div class="error">{{ error }}</div>
+    {% elif result %}
+      <div class="risk-banner risk-{{ result.risk_level|lower }}">
+        <span class="risk-level">{{ result.risk_level }}</span>
+        <span class="risk-score">{{ result.fraud_probability|floatformat:1 }}% fraud probability</span>
+      </div>
+      <p><strong>Transaction ID:</strong> {{ result.transaction.transaction_id }}</p>
+      <p><strong>Flagged:</strong> {% if result.is_fraud %}Yes — review recommended{% else %}No{% endif %}</p>
+
+      <h3>Risk Factors</h3>
+      <ul class="risk-factors">
+        {% for factor in result.risk_factors %}
+        <li class="severity-{{ factor.severity }}">
+          <strong>{{ factor.factor }}</strong> — {{ factor.detail }}
+        </li>
+        {% empty %}
+        <li>No significant risk factors detected.</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="muted">Fill in the form and submit to see AI scoring results.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

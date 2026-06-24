@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}PayGuard AI{% endblock %} — India Payment Fraud Detection</title>
+  <link rel="stylesheet" href="/static/fraud_detection/css/style.css">
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="brand">PayGuard<span>AI</span></a>
+    <div class="nav-links">
+      <a href="/">Dashboard</a>
+      <a href="/analyze/">Analyze Transaction</a>
+      <a href="/policy/">Policy & Challenges</a>
+      <a href="/api/">API</a>
+    </div>
+  </nav>
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="footer">
+    <p>Research prototype — AI for Fraud Detection in Indian Digital Payments</p>
+  </footer>
+</body>
+</html>

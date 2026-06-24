@@ -1,0 +1,10 @@
+Django>=5.0,<7.0
+djangorestframework>=3.15
+scikit-learn>=1.5
+pandas>=2.2
+numpy>=2.0
+joblib>=1.4
+python-dotenv>=1.0
+gunicorn>=22.0
+whitenoise>=6.7
+matplotlib>=3.9
