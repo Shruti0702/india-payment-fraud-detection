@@ -9,9 +9,19 @@
 **JEL Classification:** G23, G28, O33, K24  
 
 **Live Demonstration:** https://payguard-ai.onrender.com  
-**Source Code:** https://github.com/shrutisrivastava/india-payment-fraud-detection  
+**Source Code:** https://github.com/Shruti0702/india-payment-fraud-detection  
 
 ---
+
+## List of Figures
+
+| Figure | Description | File |
+|--------|-------------|------|
+| Figure 1 | PayGuard AI system architecture | `images/fig1_system_architecture.png` |
+| Figure 2 | Machine learning fraud detection workflow | `images/fig2_ml_workflow.png` |
+| Figure 3 | Dashboard — transaction monitoring and alerts | `images/fig3_dashboard.png` |
+| Figure 4 | Transaction analyser with explainable risk factors | `images/fig4_analyze_result.png` |
+| Figure 5 | Policy module — regulatory frameworks and challenges | `images/fig5_policy_page.png` |
 
 ## Abstract
 
@@ -121,6 +131,14 @@ PayGuard AI is implemented as a Django 6 web application with Django REST Framew
 
 The system is deployed on Render (cloud PaaS) with Gunicorn, WhiteNoise for static assets, and SQLite for demonstration (PostgreSQL recommended for production).
 
+![Figure 1: PayGuard AI System Architecture](images/fig1_system_architecture.png)
+
+*Figure 1: PayGuard AI system architecture showing ingestion, feature engineering, hybrid ML ensemble, explainability layer, and action engine.*
+
+![Figure 2: Machine Learning Fraud Detection Workflow](images/fig2_ml_workflow.png)
+
+*Figure 2: End-to-end ML workflow from synthetic data generation through ensemble inference to risk stratification.*
+
 ### 4.2 Feature Engineering
 
 Features are designed to reflect Indian payment fraud typologies documented by RBI and NPCI:
@@ -193,6 +211,10 @@ On the held-out test set (n = 2,400):
 
 Perfect classification on synthetic data indicates that the feature space was constructed with separable fraud signals. This validates the pipeline architecture but **does not constitute evidence of production readiness**. Real-world payment data exhibits label noise, concept drift, adversarial adaptation, and class imbalance more severe than our simulation. Future work must evaluate on institutional datasets under appropriate data-sharing agreements.
 
+![Figure 3: PayGuard AI Dashboard](images/fig3_dashboard.png)
+
+*Figure 3: Live dashboard showing 150 scored transactions, model performance metrics, channel-wise fraud breakdown, and recent alerts.*
+
 ### 5.3 Case Study: High-Risk UPI Transaction
 
 Consider a simulated transaction with the following attributes:
@@ -206,6 +228,10 @@ Consider a simulated transaction with the following attributes:
 - Flags: New beneficiary, high velocity, geo mismatch, first large transaction
 
 PayGuard AI assigns **CRITICAL** risk with fraud probability exceeding 0.90. Explainability output identifies five risk factors, recommending transaction block and beneficiary cooling-off period—consistent with NPCI's velocity guidelines for new UPI users.
+
+![Figure 4: Transaction Analyser with Explainable Risk Factors](images/fig4_analyze_result.png)
+
+*Figure 4: Transaction fraud analyser scoring a high-risk UPI payment with explainable risk factors (new beneficiary, velocity, geographic anomaly, merchant risk, young account).*
 
 ---
 
@@ -262,6 +288,10 @@ Fraudsters actively probe and evade detection systems. Continuous retraining, dr
 ---
 
 ## 8. Policy Implications
+
+![Figure 5: Policy Module — Regulatory Frameworks and Challenges](images/fig5_policy_page.png)
+
+*Figure 5: Policy module documenting RBI, NPCI, and MeitY frameworks with India-specific AI deployment challenges and mitigations.*
 
 ### 8.1 Recommendations for RBI
 
@@ -371,10 +401,22 @@ Reserve Bank of India (RBI). (2023). *Guidelines on Information Technology Gover
 | Training samples | 12,000 |
 | Fraud rate | 8% |
 
-## Appendix C: Reproducibility
+## Appendix C: Figures
+
+All figures are stored in `docs/images/`:
+
+| File | Description |
+|------|-------------|
+| `fig1_system_architecture.png` | System architecture diagram |
+| `fig2_ml_workflow.png` | ML pipeline workflow |
+| `fig3_dashboard.png` | Live dashboard screenshot |
+| `fig4_analyze_result.png` | Transaction analyser with results |
+| `fig5_policy_page.png` | Policy and challenges page |
+
+## Appendix D: Reproducibility
 
 ```bash
-git clone https://github.com/shrutisrivastava/india-payment-fraud-detection
+git clone https://github.com/Shruti0702/india-payment-fraud-detection
 cd india-payment-fraud-detection
 python3 -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
