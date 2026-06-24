@@ -27,4 +27,10 @@ See `docs/PAPER_OUTLINE.md` for your paper structure.
 
 ## Deploy
 
-Push to GitHub and deploy on Render using `render.yaml`, or run `docker build -t payguard-ai .`
+See **`docs/DEPLOY.md`** for GitHub push and Render deployment steps.
+
+**Live demo (after deploy):** https://payguard-ai.onrender.com
+
+## Paper (SSRN)
+
+Full working paper: **`docs/SSRN_PAPER.md`** — convert to PDF and upload at [ssrn.com](https://www.ssrn.com).
